@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /admin/ # Если есть админ-панель, укажите её
 Allow: /
 
 Sitemap: https://vr-case.com.ar/sitemap.xml

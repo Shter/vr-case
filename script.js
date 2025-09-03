@@ -30,15 +30,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
-  if (window.scrollY > 50) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-});
-
 const observerOptions = {
   root: null,
   threshold: 0.1,
@@ -49,7 +40,7 @@ const animateObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('animate');
-      animateObserver.unobserve(entry.target);
+      animateObserver.unobserve(entry.target);3
     }
   });
 }, observerOptions);
@@ -60,29 +51,32 @@ document.querySelectorAll('.about-content, .feature-card, .pricing-card').forEac
 
 let currentSlide = 0;
 const testimonialTrack = document.getElementById('testimonialTrack');
-const testimonialDots = document.querySelectorAll('#sliderNav .slider-dot');
-const testimonialSlides = document.querySelectorAll('.testimonial');
-const slideCount = testimonialSlides.length;
 
-function goToSlide(index) {
-  if (index < 0) index = slideCount - 1;
-  if (index >= slideCount) index = 0;
+if (testimonialTrack) {
+  const testimonialDots = document.querySelectorAll('#sliderNav .slider-dot');
+  const testimonialSlides = document.querySelectorAll('.testimonial');
+  const slideCount = testimonialSlides.length;
 
-  currentSlide = index;
-  testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+  function goToSlide(index) {
+    if (index < 0) index = slideCount - 1;
+    if (index >= slideCount) index = 0;
 
-  testimonialDots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentSlide);
+    currentSlide = index;
+    testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    testimonialDots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  testimonialDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => goToSlide(index));
   });
+
+  setInterval(() => {
+    goToSlide(currentSlide + 1);
+  }, 5000);
 }
-
-testimonialDots.forEach((dot, index) => {
-  dot.addEventListener('click', () => goToSlide(index));
-});
-
-setInterval(() => {
-  goToSlide(currentSlide + 1);
-}, 5000);
 
 document.addEventListener('DOMContentLoaded', function() {
   const aboutTrack = document.getElementById('aboutCarouselTrack');
@@ -131,8 +125,46 @@ modalClose.addEventListener('click', () => {
   modal.style.display = 'none';
 });
 
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
-  }
-});
+if (modal) {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+}
+
+const reserveModal = document.getElementById('reserveModal');
+
+if (reserveModal) {
+  const reserveClose = document.querySelector('#reserveModal .modal-close');
+  const reserveButtons = document.querySelectorAll('.reserve-btn');
+
+  reserveButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      reserveModal.style.display = 'flex';
+      gtag('event', 'click_reserve', {
+        'event_category': 'Button',
+        'event_label': button.getAttribute('data-plan')
+      });
+    });
+  });
+
+  reserveClose.addEventListener('click', () => {
+    reserveModal.style.display = 'none';
+  });
+
+  reserveModal.addEventListener('click', (e) => {
+    if (e.target === reserveModal) {
+      reserveModal.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('.reserve-socials .social-icon').forEach(link => {
+    link.addEventListener('click', () => {
+      gtag('event', 'click_social_reserve', {
+        'event_category': 'Social',
+        'event_label': link.getAttribute('data-social')
+      });
+    });
+  });
+}

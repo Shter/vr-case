@@ -227,10 +227,12 @@ nav ul li a:hover::after {
 }
 
 .about-video {
-  width: 74%;
+  height: 100%;
+  width: 80%;
   margin-left: 15%;
   object-fit: cover;
-  border-radius: 15px;
+  border: 2px solid var(--dark);
+  border-radius: 20px;
   aspect-ratio: 9/16;
 }
 
@@ -242,16 +244,12 @@ nav ul li a:hover::after {
 }
 
 .about-img {
-  max-width: 500px;
+  height: 100%;
   width: 100%;
   border: 2px solid var(--dark);
   border-radius: 20px;
   overflow: hidden;
   transition: var(--transition);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: #999;
   font-size: 1.2rem;
 }

@@ -1,9 +1,15 @@
 {
+  "cleanUrls": true,
   "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/alquiler-precios.html", "destination": "/alquiler-precios", "permanent": true }
+  ],
+  "headers": [
     {
-      "source": "/",
-      "destination": "/index.html",
-      "permanent": false
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "all" }
+      ]
     }
   ]
 }
